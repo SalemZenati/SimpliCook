@@ -36,7 +36,7 @@ const NavigationBar = () => {
 
   const navItems = [
     { name: "Recipe Library", href: "/RecipeLibrary" },
-    { name: "Recipe Blog", href: "#" },
+    { name: "Recipe Blog", href: "/RecipeBlog" },
     { name: "Support", href: "#" },
     { name: "About Us", href: "#" },
   ];
@@ -54,7 +54,7 @@ const NavigationBar = () => {
         isScrolled ? "bg-white shadow-lg" : "bg-white/90"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7x1 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
           <div className = "flex items-center">

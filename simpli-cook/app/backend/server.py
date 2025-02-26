@@ -13,24 +13,47 @@ CORS(app)
 # Store scraped recipes
 trending_recipes = []
 
-def get_trending_urls():
-    """Scrape trending recipe URLs from AllRecipes homepage"""
-    url = "https://www.allrecipes.com/"
+# Category mapping (adjust as needed)
+category_mapping = {
+    "desserts": "79/desserts",
+    "drinks": "77/drinks",
+    "breakfast": "78/breakfast-and-brunch",
+    "lunch": "17561/lunch",
+    "healthy": "84/healthy-recipes",
+    "appetizers-and-snacks": "76/appetizers-and-snacks",
+    "salads": "96/salad",
+    "side-dishes": "81/side-dish",
+    "soups": "16369/soups-stews-and-chili/soup",
+    "bread": "156/bread",
+}
+
+def get_category_urls(category_path):
+    """Fetch multiple recipe links from a category page"""
+    url = f"https://www.allrecipes.com/recipes/{category_path}/"
     headers = {"User-Agent": "Mozilla/5.0"}
-    
+
     try:
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, "html.parser")
 
-        recipe_links = []
-        for link in soup.select("a[href*='/recipe/']"):
-            href = link["href"]
-            if href not in recipe_links and len(recipe_links) < 6:  # Limit to 6 recipes
-                recipe_links.append(href)
+        recipe_links = set()  # Use a set to avoid duplicates
 
-        return recipe_links
+        # Grab links from both main cards & alternative containers
+        for link in soup.select("a[href*='/recipe/']"):
+            if len(recipe_links) >= 10:  # Fetch at least 10 recipes
+                break
+            recipe_links.add(link["href"])
+
+        # Look inside card components to find more links
+        for link in soup.select("div.card_content a[href*='/recipe/']"):
+            if len(recipe_links) >= 10:
+                break
+            recipe_links.add(link["href"])
+
+        return list(recipe_links)
+
     except Exception as e:
-        print(f"Error fetching trending recipes: {e}")
+        print(f"Error fetching category URLs: {e}")
         return []
 
 def scrape_recipes(urls):
@@ -38,9 +61,8 @@ def scrape_recipes(urls):
     scraped_recipes = []
     for url in urls:
         try:
-            # Fetch HTML manually
             html = requests.get(url).text
-            scraper = scrape_html(html, org_url=url)  # FIXED: Use scrape_html
+            scraper = scrape_html(html, org_url=url)
 
             recipe_data = {
                 "title": scraper.title(),
@@ -59,7 +81,7 @@ def scrape_recipes(urls):
 def scrape_trending_recipes():
     """Scrape and store trending recipes"""
     global trending_recipes
-    urls = get_trending_urls()
+    urls = get_category_urls("trending-now")  # Adjusted for trending section
     trending_recipes = scrape_recipes(urls)
     print("Updated trending recipes.")
 
@@ -86,15 +108,13 @@ def get_trending_recipes():
 def get_category_recipes():
     """API Endpoint to fetch recipes for a specific category"""
     category = request.args.get("category", "").lower()
-    url = f"https://www.allrecipes.com/recipes/"
-    
-    if not category:
-        return jsonify({"error": "Category is required"}), 400
-    
+
+    if not category or category not in category_mapping:
+        return jsonify({"error": "Invalid or missing category"}), 400
+
+    category_path = category_mapping[category]
     try:
-        response = requests.get(f"{url}{category}/", headers={"User-Agent": "Mozilla/5.0"})
-        soup = BeautifulSoup(response.content, "html.parser")
-        recipe_links = [a["href"] for a in soup.select("a[href*='/recipe/']")[:6]]  # Limit to 6
+        recipe_links = get_category_urls(category_path)
         recipes = scrape_recipes(recipe_links)
         return jsonify(recipes)
     except Exception as e:
@@ -106,14 +126,14 @@ def search_recipes():
     """API Endpoint to search recipes by a query"""
     query = request.args.get("query", "").replace(" ", "+")
     url = f"https://www.allrecipes.com/search/results/?wt={query}"
-    
+
     if not query:
         return jsonify({"error": "Search query is required"}), 400
-    
+
     try:
         response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
         soup = BeautifulSoup(response.content, "html.parser")
-        recipe_links = [a["href"] for a in soup.select("a[href*='/recipe/']")[:6]]  # Limit to 6
+        recipe_links = [a["href"] for a in soup.select("a[href*='/recipe/']")[:10]]  # Limit to 10
         recipes = scrape_recipes(recipe_links)
         return jsonify(recipes)
     except Exception as e:

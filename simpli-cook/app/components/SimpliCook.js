@@ -34,16 +34,33 @@ const SimpliCook = () => {
   };
 
   const categories = [
-    { name: "Quick Meals", icon: IoFastFoodOutline },
-    { name: "Vegetarian", icon: GiPlantRoots },
-    { name: "Desserts", icon: GiCupcake },
-    { name: "Breakfast", icon: GiBowlOfRice },
-    { name: "International", icon: BiWorld },
+    { name: "Desserts", id: "desserts", icon: GiCupcake },
+    { name: "Drinks", id: "drinks", icon: BiWorld },
+    { name: "Breakfast & Brunch", id: "breakfast", icon: GiBowlOfRice },
+    { name: "Lunch", id: "lunch", icon: IoFastFoodOutline },
+    { name: "Healthy", id: "healthy", icon: GiPlantRoots },
+    { name: "Appetizers & Snacks", id: "appetizers-and-snacks", icon: IoFastFoodOutline },
+    { name: "Salads", id: "salads", icon: GiPlantRoots },
+    { name: "Side Dishes", id: "side-dishes", icon: IoFastFoodOutline },
+    { name: "Soups", id: "soups", icon: GiBowlOfRice },
+    { name: "Bread", id: "bread", icon: GiBowlOfRice },
   ];
+  
 
-  const handleCategoryClick = (category) => {
-    fetchRecipes("http://localhost:5000/category-recipes", { category });
+  const handleCategoryClick = async (categoryId) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/category-recipes?category=${encodeURIComponent(categoryId)}`
+      );
+      setRecipes(response.data);
+    } catch (error) {
+      console.error("Error fetching category recipes:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
@@ -116,9 +133,9 @@ const SimpliCook = () => {
             const Icon = category.icon;
             return (
               <div
-                key={category.name}
+                key={category.id}
                 className="flex-shrink-0 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 cursor-pointer"
-                onClick={() => handleCategoryClick(category.name)}
+                onClick={() => handleCategoryClick(category.id)}
               >
                 <Icon className="text-4xl text-orange-500 mb-2" />
                 <p className="font-medium">{category.name}</p>
@@ -130,6 +147,7 @@ const SimpliCook = () => {
 
       {/* Recipes */}
       <div className="container mx-auto px-4 py-6">
+          <h2 className="text-2xl font-bold mb-4">Todays Recipes</h2>
         {loading ? (
           <p>Loading recipes...</p>
         ) : (

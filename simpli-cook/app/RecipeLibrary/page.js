@@ -56,7 +56,7 @@ const dummyRecipes = [
 ];
 
 const Header = () => (
-  <header className="relative mt-12 h-64 bg-gradient-to-r from-green-600 via-green-500 to-green-400 text-white dark:from-green-700 dark:via-green-600 dark:to-green-500">
+  <header className="relative pt-20 h-80 bg-gradient-to-r from-green-600 via-green-500 to-green-400 text-white dark:from-green-700 dark:via-green-600 dark:to-green-500">
     <div className="absolute inset-0 bg-black/30"></div>
     <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
       <h1 className="text-4xl md:text-5xl font-bold mb-4">
