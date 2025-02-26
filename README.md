@@ -2,6 +2,8 @@
 ### **SimpliCook - AI-Powered Recipe Finder & Scraper**
 #### 🍳 **Discover Recipes, Generate AI Dishes, and Scrape from AllRecipes**
 
+![image](https://github.com/user-attachments/assets/38f5c491-4af0-4b49-95d9-a6af6e2cc791)
+
 SimpliCook is a **full-stack recipe discovery** app that allows users to:
 - **Search for recipes** using AI-generated content.
 - **Scrape trending & category recipes** from AllRecipes.
