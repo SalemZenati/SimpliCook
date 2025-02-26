@@ -1,6 +1,3 @@
-Here's a **README.md** for your project:  
-
----
 
 ### **SimpliCook - AI-Powered Recipe Finder & Scraper**
 #### 🍳 **Discover Recipes, Generate AI Dishes, and Scrape from AllRecipes**
