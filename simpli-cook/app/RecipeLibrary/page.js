@@ -74,10 +74,15 @@ const Header = () => (
   </header>
 );
 
-const FilterSection = () => (
+const FilterSection = ({ cuisinePreference, setCuisinePreference, dietaryRestrictions, setDietaryRestrictions }) => (
   <div className="bg-white shadow-sm p-4 rounded-lg mb-8 dark:bg-gray-800 dark:text-gray-200">
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <select className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+      {/* Cuisine Type Dropdown */}
+      <select
+        className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+        value={cuisinePreference}
+        onChange={(e) => setCuisinePreference(e.target.value)}
+      >
         <option value="">Cuisine Type</option>
         {cuisineTypes.map((cuisine) => (
           <option key={cuisine} value={cuisine}>
@@ -85,7 +90,13 @@ const FilterSection = () => (
           </option>
         ))}
       </select>
-      <select className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+
+      {/* Dietary Preference Dropdown */}
+      <select
+        className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+        value={dietaryRestrictions}
+        onChange={(e) => setDietaryRestrictions(e.target.value)}
+      >
         <option value="">Diet Preference</option>
         {dietTypes.map((diet) => (
           <option key={diet} value={diet}>
@@ -93,6 +104,8 @@ const FilterSection = () => (
           </option>
         ))}
       </select>
+
+      {/* Difficulty Dropdown */}
       <select className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <option value="">Difficulty</option>
         {difficultyLevels.map((level) => (
@@ -101,6 +114,8 @@ const FilterSection = () => (
           </option>
         ))}
       </select>
+
+      {/* Cooking Time Dropdown */}
       <select className="p-2 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <option value="">Cooking Time</option>
         <option value="quick">Quick (Less than 30 mins)</option>
@@ -110,6 +125,7 @@ const FilterSection = () => (
     </div>
   </div>
 );
+
 
 const AIRecipeGenerator = () => {
   const [ingredients, setIngredients] = useState("");

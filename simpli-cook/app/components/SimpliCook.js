@@ -3,6 +3,17 @@ import { FiSearch } from "react-icons/fi";
 import { GiPlantRoots, GiCupcake, GiBowlOfRice } from "react-icons/gi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { BiWorld } from "react-icons/bi";
+import { FaCoffee } from "react-icons/fa";
+import { LuSalad } from "react-icons/lu";
+import { RiDrinks2Line } from "react-icons/ri";
+import { CiFries } from "react-icons/ci";
+import { MdOutlineCookie } from "react-icons/md";
+import { LuSoup } from "react-icons/lu";
+import { FaBreadSlice } from "react-icons/fa";
+
+
+
+
 import axios from "axios";
 
 const SimpliCook = () => {
@@ -35,15 +46,15 @@ const SimpliCook = () => {
 
   const categories = [
     { name: "Desserts", id: "desserts", icon: GiCupcake },
-    { name: "Drinks", id: "drinks", icon: BiWorld },
-    { name: "Breakfast & Brunch", id: "breakfast", icon: GiBowlOfRice },
+    { name: "Drinks", id: "drinks", icon: RiDrinks2Line  },
+    { name: "Breakfast & Brunch", id: "breakfast", icon: FaCoffee },
     { name: "Lunch", id: "lunch", icon: IoFastFoodOutline },
     { name: "Healthy", id: "healthy", icon: GiPlantRoots },
-    { name: "Appetizers & Snacks", id: "appetizers-and-snacks", icon: IoFastFoodOutline },
-    { name: "Salads", id: "salads", icon: GiPlantRoots },
-    { name: "Side Dishes", id: "side-dishes", icon: IoFastFoodOutline },
-    { name: "Soups", id: "soups", icon: GiBowlOfRice },
-    { name: "Bread", id: "bread", icon: GiBowlOfRice },
+    { name: "Appetizers & Snacks", id: "appetizers-and-snacks", icon: MdOutlineCookie},
+    { name: "Salads", id: "salads", icon: LuSalad  },
+    { name: "Side Dishes", id: "side-dishes", icon: CiFries },
+    { name: "Soups", id: "soups", icon: LuSoup },
+    { name: "Bread", id: "bread", icon: FaBreadSlice },
   ];
   
 
@@ -83,19 +94,25 @@ const SimpliCook = () => {
       <div
         className="relative h-[600px] bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1504674900247-0877df9cc836')`,
+          backgroundImage: `url("https://images.unsplash.com/photo-1504674900247-0877df9cc836")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed", // Helps prevent overrides
+          WebkitFilter: "none", // Fix for some dark mode extensions
+          filter: "none", // Prevents dark mode filters
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="container mx-auto px-4 h-full flex items-center justify-center">
             <div className="text-white max-w-2xl text-center">
-              <h1 className="text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-orange-300 to-orange-100 bg-clip-text text-transparent">
+              <h1 className="text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-orange-300 to-orange-100 bg-clip-text text-orange-300 dark:text-orange-200">
                 Delicious Meals, Simple Cooking
               </h1>
               <p className="text-2xl mb-8 text-orange-100">
                 Discover Recipes for Every Skill Level
               </p>
-              <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-10 py-4 rounded-full font-semibold transition duration-300 hover:scale-105 transform hover:shadow-lg">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-full font-semibold transition duration-300 hover:scale-105 transform hover:shadow-lg dark:bg-orange-500 dark:hover:bg-orange-600 dark:text-white">
                 Explore Recipes
               </button>
             </div>
@@ -128,16 +145,16 @@ const SimpliCook = () => {
       {/* Categories */}
       <div className="container mx-auto px-4 py-6">
         <h2 className="text-2xl font-bold mb-4">Categories</h2>
-        <div className="flex space-x-4 overflow-x-auto pb-4">
+        <div className="flex space-x-4 overflow-x-auto pb-4 ">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
               <div
                 key={category.id}
-                className="flex-shrink-0 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 cursor-pointer"
+                className="flex-shrink-0 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 cursor-pointer hover:scale-110 transition flex flex-col items-center text-center"
                 onClick={() => handleCategoryClick(category.id)}
               >
-                <Icon className="text-4xl text-orange-500 mb-2" />
+                <Icon className="text-4xl text-orange-500 mb-2 items-center" />
                 <p className="font-medium">{category.name}</p>
               </div>
             );
