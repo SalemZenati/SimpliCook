@@ -37,7 +37,7 @@ const NavigationBar = () => {
   const navItems = [
     { name: "Recipe Library", href: "/RecipeLibrary" },
     { name: "Recipe Blog", href: "/RecipeBlog" },
-    { name: "Support", href: "#" },
+    { name: "Support", href: "/SupportPage" },
     { name: "About Us", href: "#" },
   ];
 
