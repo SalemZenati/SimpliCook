@@ -7,6 +7,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -15,7 +16,9 @@ const Header = () => (
     <div className="absolute inset-0 bg-black/30"></div>
     <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
       <h1 className="text-4xl md:text-5xl font-bold mb-4">Support Center</h1>
-      <p className="text-lg">Find answers to common questions or contact us for assistance.</p>
+      <p className="text-lg">
+        Find answers to common questions or contact us for assistance.
+      </p>
     </div>
   </header>
 );
@@ -26,19 +29,23 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "How do I save a recipe?",
-      answer: "You can save a recipe by clicking the 'Save Recipe' button below the generated recipe.",
+      answer:
+        "You can save a recipe by clicking the 'Save Recipe' button below the generated recipe.",
     },
     {
       question: "Can I access my saved recipes later?",
-      answer: "Yes! Your saved recipes are stored locally and can be accessed anytime in the 'Saved Recipes' section.",
+      answer:
+        "Yes! Your saved recipes are stored locally and can be accessed anytime in the 'Saved Recipes' section.",
     },
     {
       question: "How do I generate an AI-powered recipe?",
-      answer: "Enter your ingredients, select preferences, and click 'Generate Recipe' to receive a unique AI-created dish!",
+      answer:
+        "Enter your ingredients, select preferences, and click 'Generate Recipe' to receive a unique AI-created dish!",
     },
     {
       question: "How can I contact customer support?",
-      answer: "You can reach us via email at support@simplicook.com or call us at (123) 456-7890.",
+      answer:
+        "You can reach us via email at support@simplicook.com or call us at (123) 456-7890.",
     },
   ];
 
@@ -59,7 +66,22 @@ const FAQSection = () => {
               {faq.question}
               {openFAQ === index ? <FaChevronUp /> : <FaChevronDown />}
             </button>
-            {openFAQ === index && <p className="mt-2 text-gray-700 dark:text-gray-300">{faq.answer}</p>}
+
+            <AnimatePresence>
+              {openFAQ === index && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  <p className="mt-2 text-gray-700 dark:text-gray-300">
+                    {faq.answer}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ))}
       </div>
@@ -70,7 +92,9 @@ const FAQSection = () => {
 const ContactSection = () => (
   <div className="bg-gray-100 dark:bg-gray-900 shadow-md rounded-lg p-6">
     <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-    <p className="text-lg text-gray-700 dark:text-gray-300">Need further assistance? Reach out to us!</p>
+    <p className="text-lg text-gray-700 dark:text-gray-300">
+      Need further assistance? Reach out to us!
+    </p>
     <div className="mt-4 space-y-2">
       <p className="flex items-center">
         <FaEnvelope className="text-green-500 dark:text-green-400 mr-2" />
